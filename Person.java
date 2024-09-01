@@ -1,31 +1,23 @@
 // Interface to handle bonuses
-public interface BonusEligible {
+interface BonusEligible {
     // Static constant
-    double MAX_BONUS = 10000.00;
+    double DEFAULT_BONUS = 5000.00;
 
     double getBonus();
     void setBonus(double bonus);
 }
 
 // Abstract class Person
-public abstract class Person {
+abstract class Person {
     private String name;
-    private String address;
 
     // Constructors
     public Person() {
         this.name = "Unknown";
-        this.address = "Unknown";
     }
 
     public Person(String name) {
         this.name = name;
-        this.address = "Unknown";
-    }
-
-    public Person(String name, String address) {
-        this.name = name;
-        this.address = address;
     }
 
     // Getter and Setter methods
@@ -37,24 +29,16 @@ public abstract class Person {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     // Abstract method
     public abstract void displayInfo();
 
     // Final method
     public final String getFullDetails() {
-        return "Name: " + getName() + ", Address: " + getAddress();
+        return "Name: " + getName();
     }
 
     // Static method to print person's info
-    public static void printPersonInfo(Person person) {
+    public static void printInfo(Person person) {
         System.out.println("Person Info: " + person.getFullDetails());
     }
 }
@@ -66,14 +50,17 @@ public class Employee extends Person implements BonusEligible {
     // Constructors
     public Employee() {
         super();
+        this.bonus = DEFAULT_BONUS; // Set default bonus
     }
 
     public Employee(String name) {
         super(name);
+        this.bonus = DEFAULT_BONUS; // Set default bonus
     }
 
-    public Employee(String name, String address) {
-        super(name, address);
+    public Employee(String name, double bonus) {
+        super(name);
+        setBonus(bonus); // Set bonus through the setter method
     }
 
     // Implementing BonusEligible interface methods
@@ -84,11 +71,7 @@ public class Employee extends Person implements BonusEligible {
 
     @Override
     public void setBonus(double bonus) {
-        if (bonus > MAX_BONUS) {
-            this.bonus = MAX_BONUS;
-        } else {
-            this.bonus = bonus;
-        }
+        this.bonus = bonus;
     }
 
     @Override
@@ -98,7 +81,7 @@ public class Employee extends Person implements BonusEligible {
 }
 
 // Payroll class
-public class Payroll {
+class Payroll {
     private Person employee;
 
     // Constructor
@@ -107,22 +90,20 @@ public class Payroll {
     }
 
     public static void main(String[] args) {
-        // Using the constructors
-        Employee employee = new Employee("John Doe", "123 Main St");
+        // Using the constructors with bonus
+        Employee employee = new Employee("John Doe", 12000.00);
 
-        // Attempt to set a bonus greater than MAX_BONUS
-        employee.setBonus(12000.00);
-        System.out.println("Attempted to set bonus to 12000.00. Actual bonus set: " + employee.getBonus());
-        System.out.println("Maximum allowable bonus is: " + BonusEligible.MAX_BONUS);
+        System.out.println("Set bonus to 12000.00. Actual bonus set: " + employee.getBonus());
+        System.out.println("Default bonus is: " + BonusEligible.DEFAULT_BONUS);
 
         // Print employee's information using the static method
-        Person.printPersonInfo(employee);
+        Person.printInfo(employee);
 
         Payroll payroll = new Payroll(employee);
         payroll.processPayroll(5000.00);
     }
 
-    public void processPayroll(double salary) {
+    void processPayroll(double salary) {
         double totalPay = salary;
         System.out.println("Processing payroll for: " + employee.getName());
 
