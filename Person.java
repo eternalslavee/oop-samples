@@ -80,13 +80,41 @@ public class Employee extends Person implements BonusEligible {
     }
 }
 
+// New Paycheck class
+class Paycheck {
+    private double amount;
+    private String payDate;
+
+    // Constructor
+    public Paycheck(double amount, String payDate) {
+        this.amount = amount;
+        this.payDate = payDate;
+    }
+
+    // Getters
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getPayDate() {
+        return payDate;
+    }
+
+    // Method to display paycheck details
+    public void displayPaycheckInfo() {
+        System.out.println("Paycheck - Amount: " + amount + ", Date: " + payDate);
+    }
+}
+
 // Payroll class
 class Payroll {
     private Person employee;
+    private Paycheck paycheck; // Composition: Payroll owns Paycheck
 
     // Constructor
-    public Payroll(Person employee) {
+    public Payroll(Person employee, Paycheck paycheck) {
         this.employee = employee;
+        this.paycheck = paycheck;
     }
 
     public static void main(String[] args) {
@@ -99,8 +127,13 @@ class Payroll {
         // Print employee's information using the static method
         Person.printInfo(employee);
 
-        Payroll payroll = new Payroll(employee);
+        // Create a paycheck and process payroll
+        Paycheck paycheck = new Paycheck(17000.00, "2024-09-15");
+        Payroll payroll = new Payroll(employee, paycheck);
         payroll.processPayroll(5000.00);
+
+        // Display paycheck details
+        paycheck.displayPaycheckInfo();
     }
 
     void processPayroll(double salary) {
