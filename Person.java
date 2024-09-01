@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 // Interface to handle bonuses
 interface BonusEligible {
     // Static constant
@@ -80,7 +83,7 @@ public class Employee extends Person implements BonusEligible {
     }
 }
 
-// New Paycheck class
+// Paycheck class
 class Paycheck {
     private double amount;
     private String payDate;
@@ -106,30 +109,30 @@ class Paycheck {
     }
 }
 
-// Payroll class
+// Payroll class with aggregation relationship
 class Payroll {
-    private Person employee;
-    private Paycheck paycheck; // Composition: Payroll owns Paycheck
+    private List<Person> employees; // Aggregation: Payroll uses a list of Person
+    private Paycheck paycheck;      // Composition: Payroll owns Paycheck
 
     // Constructor
-    public Payroll(Person employee, Paycheck paycheck) {
-        this.employee = employee;
+    public Payroll(List<Person> employees, Paycheck paycheck) {
+        this.employees = employees;
         this.paycheck = paycheck;
     }
 
     public static void main(String[] args) {
         // Using the constructors with bonus
-        Employee employee = new Employee("John Doe", 12000.00);
+        Employee employee1 = new Employee("John Doe", 12000.00);
+        Employee employee2 = new Employee("Jane Smith", 15000.00);
 
-        System.out.println("Set bonus to 12000.00. Actual bonus set: " + employee.getBonus());
-        System.out.println("Default bonus is: " + BonusEligible.DEFAULT_BONUS);
+        // Creating a list of employees
+        List<Person> employeeList = new ArrayList<>();
+        employeeList.add(employee1);
+        employeeList.add(employee2);
 
-        // Print employee's information using the static method
-        Person.printInfo(employee);
-
-        // Create a paycheck and process payroll
+        // Creating a paycheck and processing payroll
         Paycheck paycheck = new Paycheck(17000.00, "2024-09-15");
-        Payroll payroll = new Payroll(employee, paycheck);
+        Payroll payroll = new Payroll(employeeList, paycheck);
         payroll.processPayroll(5000.00);
 
         // Display paycheck details
@@ -137,17 +140,19 @@ class Payroll {
     }
 
     void processPayroll(double salary) {
-        double totalPay = salary;
-        System.out.println("Processing payroll for: " + employee.getName());
+        for (Person employee : employees) {
+            double totalPay = salary;
+            System.out.println("Processing payroll for: " + employee.getName());
 
-        // Check if the employee is bonus eligible
-        if (employee instanceof BonusEligible) {
-            BonusEligible bonusEligible = (BonusEligible) employee;
-            totalPay += bonusEligible.getBonus();
-            System.out.println("Including bonus: " + bonusEligible.getBonus());
+            // Check if the employee is bonus eligible
+            if (employee instanceof BonusEligible) {
+                BonusEligible bonusEligible = (BonusEligible) employee;
+                totalPay += bonusEligible.getBonus();
+                System.out.println("Including bonus: " + bonusEligible.getBonus());
+            }
+
+            System.out.println("Total pay: " + totalPay);
+            // Additional payroll processing logic
         }
-
-        System.out.println("Total pay: " + totalPay);
-        // Additional payroll processing logic
     }
 }
