@@ -115,13 +115,12 @@ class Payroll {
     private Paycheck paycheck;      // Composition: Payroll owns Paycheck
 
     // Constructor
-    public Payroll(List<Person> employees, Paycheck paycheck) {
+    public Payroll(List<Person> employees) {
         this.employees = employees;
-        this.paycheck = paycheck;
     }
 
     public static void main(String[] args) {
-        // Using the constructors with bonus
+        // Creating employees
         Employee employee1 = new Employee("John Doe", 12000.00);
         Employee employee2 = new Employee("Jane Smith", 15000.00);
 
@@ -130,13 +129,11 @@ class Payroll {
         employeeList.add(employee1);
         employeeList.add(employee2);
 
-        // Creating a paycheck and processing payroll
-        Paycheck paycheck = new Paycheck(17000.00, "2024-09-15");
-        Payroll payroll = new Payroll(employeeList, paycheck);
-        payroll.processPayroll(5000.00);
+        // Create Payroll instance with the list of employees
+        Payroll payroll = new Payroll(employeeList);
 
-        // Display paycheck details
-        paycheck.displayPaycheckInfo();
+        // Process payroll for each employee
+        payroll.processPayroll(5000.00);
     }
 
     void processPayroll(double salary) {
@@ -151,6 +148,9 @@ class Payroll {
                 System.out.println("Including bonus: " + bonusEligible.getBonus());
             }
 
+            // Create a paycheck for each employee
+            paycheck = new Paycheck(totalPay, "2024-09-15");
+            paycheck.displayPaycheckInfo();
             System.out.println("Total pay: " + totalPay);
             // Additional payroll processing logic
         }

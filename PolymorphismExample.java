@@ -25,17 +25,30 @@ class Cat extends Animal {
 }
 
 public class PolymorphismExample {
-    public static void main(String[] args) {
-        // Create a list of Animal objects
-        List<Animal> animals = new ArrayList<>();
+    private List<Animal> animals;
 
-        // Add different types of animals to the list
-        animals.add(new Dog());
-        animals.add(new Cat());
+    public PolymorphismExample() {
+        animals = new ArrayList<>();
+    }
 
-        // Loop through the list and call makeSound() on each Animal
+    public void addAnimal(Animal animal) {
+        animals.add(animal);
+    }
+
+    public void makeAllSounds() {
         for (Animal animal : animals) {
             animal.makeSound();  // Polymorphism in action
         }
+    }
+
+    public static void main(String[] args) {
+        PolymorphismExample example = new PolymorphismExample();
+        
+        // Add different types of animals to the list
+        example.addAnimal(new Dog());
+        example.addAnimal(new Cat());
+        
+        // Make all animals sound
+        example.makeAllSounds();
     }
 }
