@@ -20,8 +20,8 @@ public class PaymentService {
         String sql = "INSERT INTO paychecks (amount, pay_date) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(2, paycheck.getAmount());
-            statement.setString(3, paycheck.getPayDate());
+            statement.setDouble(1, paycheck.getAmount());
+            statement.setString(2, paycheck.getPayDate());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to save paycheck", e);

@@ -9,6 +9,7 @@ import com.google.inject.name.Names;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +18,7 @@ public class PayrollModule extends AbstractModule {
     protected void configure() {
         bind(String.class)
             .annotatedWith(Names.named("JDBC URL"))
-            .toInstance("jdbc:postgresql://localhost:5432/yourdatabase");
-
-        bind(String.class)
-            .annotatedWith(Names.named("DB User"))
-            .toInstance("yourusername");
-
-        bind(String.class)
-            .annotatedWith(Names.named("DB Password"))
-            .toInstance("yourpassword");
+            .toInstance("jdbc:sqlite:target/payroll.db");
     }
 
     // Метод для надання списку працівників
@@ -46,13 +39,25 @@ public class PayrollModule extends AbstractModule {
 
     @Provides
     @Singleton
-    Connection provideConnection(@Named("JDBC URL") String url,
-                                 @Named("DB User") String user,
-                                 @Named("DB Password") String password) {
+    Connection provideConnection(@Named("JDBC URL") String url) {
         try {
-            return DriverManager.getConnection(url, user, password);
+            Connection connection = DriverManager.getConnection(url);
+            createTableIfNotExists(connection);
+            return connection;
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create database connection", e);
+        }
+    }
+
+    private void createTableIfNotExists(Connection connection) {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS paychecks (" +
+                                "amount REAL NOT NULL, " +
+                                "pay_date TEXT NOT NULL)";
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(createTableSQL);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to create table", e);
         }
     }
 }
