@@ -2,10 +2,23 @@ package com.di;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.name.Names;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PayrollModule extends AbstractModule {
+    @Override
+    protected void configure() {
+        bind(Double.class)
+            .annotatedWith(Names.named("Minimum Salary"))
+            .toInstance(5000.00);
+        
+        bind(Double.class)
+            .annotatedWith(Names.named("Maximum Salary"))
+            .toInstance(10000.00);
+    }
+
     // Метод для надання списку працівників
     @Provides
     List<Person> provideEmployees() {

@@ -1,22 +1,29 @@
 package com.di;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.name.Named;
 
 // Payroll class with aggregation relationship
 public class Payroll {
     private List<Person> employees; // Aggregation: Payroll uses a list of Person
     private Paycheck paycheck;      // Composition: Payroll owns Paycheck
 
-    // // Впровадження залежності через конструктор
-    // @Inject
-    // public Payroll(List<Person> employees) {
-    //     this.employees = employees;
-    // }
+    private double minimumSalary;
+    private double maximumSalary;
+
+    // Впровадження залежності через конструктор
+    @Inject
+    public Payroll(List<Person> employees, 
+                   @Named("Minimum Salary") double minimumSalary, 
+                   @Named("Maximum Salary") double maximumSalary) {
+        this.employees = employees;
+        this.minimumSalary = minimumSalary;
+        this.maximumSalary = maximumSalary;
+    }
 
     // Метод для впровадження залежності через setter
     @Inject
@@ -24,12 +31,28 @@ public class Payroll {
         this.employees = employees;
     }
 
+    public void setMinimumSalary(@Named("Minimum Salary") double minimumSalary) {
+        this.minimumSalary = minimumSalary;
+    }
+
+    public void setMaximumSalary(@Named("Maximum Salary") double maximumSalary) {
+        this.maximumSalary = maximumSalary;
+    }
+
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new PayrollModule());
         Payroll payroll = injector.getInstance(Payroll.class);
 
         // Process payroll for each employee
-        payroll.processPayroll(5000.00);
+        payroll.processMaximumPayroll();
+    }
+
+    void processMinimumPayroll() {
+        processPayroll(minimumSalary);
+    }
+
+    void processMaximumPayroll() {
+        processPayroll(maximumSalary);
     }
 
     void processPayroll(double salary) {
