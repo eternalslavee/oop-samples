@@ -1,17 +1,17 @@
 package com.di;
 
-// Paycheck class
+// Клас Paycheck
 class Paycheck {
     private double amount;
     private String payDate;
 
-    // Constructor
+    // Конструктор
     public Paycheck(double amount, String payDate) {
         this.amount = amount;
         this.payDate = payDate;
     }
 
-    // Getters
+    // Геттери
     public double getAmount() {
         return amount;
     }
@@ -20,7 +20,7 @@ class Paycheck {
         return payDate;
     }
 
-    // Method to display paycheck details
+    // Метод для відображення деталей зарплати
     public void displayPaycheckInfo() {
         System.out.println("Paycheck - Amount: " + amount + ", Date: " + payDate);
     }

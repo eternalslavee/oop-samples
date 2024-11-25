@@ -1,17 +1,17 @@
 package com.di;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-import com.google.inject.name.Names;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
 public class PayrollModule extends AbstractModule {
     @Override
@@ -49,6 +49,15 @@ public class PayrollModule extends AbstractModule {
         }
     }
 
+    /**
+     * Створює таблицю "paychecks" у базі даних, якщо вона ще не існує.
+     * Таблиця містить такі колонки:
+     * - amount: значення типу REAL, яке не може бути null, що представляє суму виплати.
+     * - pay_date: значення типу TEXT, яке не може бути null, що представляє дату виплати.
+     *
+     * @param connection з'єднання з базою даних, яке використовується для створення таблиці
+     * @throws RuntimeException у разі виникнення помилки під час створення таблиці
+     */
     private void createTableIfNotExists(Connection connection) {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS paychecks (" +
                                 "amount REAL NOT NULL, " +

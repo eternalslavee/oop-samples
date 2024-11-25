@@ -1,26 +1,26 @@
 package com.di;
 
-// Employee class implementing Person and BonusEligible
+// Клас Employee, що реалізує Person і BonusEligible
 public class Employee extends Person implements BonusEligible {
     private double bonus;
 
-    // Constructors
+    // Конструктори
     public Employee() {
         super();
-        this.bonus = DEFAULT_BONUS; // Set default bonus
+        this.bonus = DEFAULT_BONUS; // Встановити бонус за замовчуванням
     }
 
     public Employee(String name) {
         super(name);
-        this.bonus = DEFAULT_BONUS; // Set default bonus
+        this.bonus = DEFAULT_BONUS; // Встановити бонус за замовчуванням
     }
 
     public Employee(String name, double bonus) {
         super(name);
-        setBonus(bonus); // Set bonus through the setter method
+        setBonus(bonus); // Встановити бонус через метод-сетер
     }
 
-    // Implementing BonusEligible interface methods
+    // Реалізація методів інтерфейсу BonusEligible
     @Override
     public double getBonus() {
         return bonus;
@@ -33,6 +33,6 @@ public class Employee extends Person implements BonusEligible {
 
     @Override
     public void displayInfo() {
-        System.out.println(getFullDetails() + ", Bonus: " + getBonus());
+        System.out.println(getFullDetails() + ", Бонус: " + getBonus());
     }
 }

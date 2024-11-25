@@ -1,19 +1,19 @@
 package com.di;
 
-// Abstract class Person
+// Абстрактний клас Person (Людина)
 abstract class Person {
     private String name;
 
-    // Constructors
+    // Конструктори
     public Person() {
-        this.name = "Unknown";
+        this.name = "Невідомо";
     }
 
     public Person(String name) {
         this.name = name;
     }
 
-    // Getter and Setter methods
+    // Геттери та сеттери
     public String getName() {
         return name;
     }
@@ -22,16 +22,16 @@ abstract class Person {
         this.name = name;
     }
 
-    // Abstract method
+    // Абстрактний метод
     public abstract void displayInfo();
 
-    // Final method
+    // Фінальний метод
     public final String getFullDetails() {
-        return "Name: " + getName();
+        return "Ім'я: " + getName();
     }
 
-    // Static method to print person's info
+    // Статичний метод для виведення інформації про людину
     public static void printInfo(Person person) {
-        System.out.println("Person Info: " + person.getFullDetails());
+        System.out.println("Інформація про людину: " + person.getFullDetails());
     }
 }
