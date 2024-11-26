@@ -10,13 +10,15 @@ import java.util.List;
 public class PayrollModule extends AbstractModule {
     @Override
     protected void configure() {
+        // Прив'язка іменованої константи без власних залежностей
         bind(Double.class)
             .annotatedWith(Names.named("Minimum Salary"))
             .toInstance(5000.00);
         
-        bind(Double.class)
+        // альтернативний варіант прив'язки іменованої константи
+        bindConstant()
             .annotatedWith(Names.named("Maximum Salary"))
-            .toInstance(10000.00);
+            .to(10000.00);
     }
 
     // Метод для надання списку працівників
@@ -26,11 +28,7 @@ public class PayrollModule extends AbstractModule {
         Employee employee1 = new Employee("John Doe");
         employee1.setBonus(12000.00);
 
-        Employee employee2 = new Employee("Jane Smith");
-        employee2.setBonus(15000.00);
-
         employeeList.add(employee1);
-        employeeList.add(employee2);
         
         return employeeList;
     }
