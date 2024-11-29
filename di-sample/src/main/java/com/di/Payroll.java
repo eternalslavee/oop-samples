@@ -25,16 +25,18 @@ public class Payroll {
         this.maximumSalary = maximumSalary;
     }
 
-    // Метод для впровадження залежності через setter
+    // Методи для впровадження залежності через setter
     @Inject
     public void setEmployees(List<Person> employees) {
         this.employees = employees;
     }
 
+    @Inject
     public void setMinimumSalary(@Named("Minimum Salary") double minimumSalary) {
         this.minimumSalary = minimumSalary;
     }
 
+    @Inject
     public void setMaximumSalary(@Named("Maximum Salary") double maximumSalary) {
         this.maximumSalary = maximumSalary;
     }
