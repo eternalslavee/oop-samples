@@ -13,12 +13,12 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 
-public class PayrollModule extends AbstractModule {
+public class CartographyModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(String.class)
             .annotatedWith(Names.named("JDBC URL"))
-            .toInstance("jdbc:sqlite:target/payroll.db");
+            .toInstance("jdbc:sqlite:target/cartography.db");
     }
 
     // Метод для надання списку працівників
@@ -59,7 +59,7 @@ public class PayrollModule extends AbstractModule {
      * @throws RuntimeException у разі виникнення помилки під час створення таблиці
      */
     private void createTableIfNotExists(Connection connection) {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS paychecks (" +
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS maps (" +
                                 "amount REAL NOT NULL, " +
                                 "pay_date TEXT NOT NULL)";
 
